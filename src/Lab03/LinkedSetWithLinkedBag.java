@@ -1,4 +1,4 @@
-package codestyles.Lab03;
+package Lab03;
 import java.util.Arrays;
 
 
@@ -126,6 +126,7 @@ public class LinkedSetWithLinkedBag<T extends Comparable<? super T>> implements 
         System.out.println("After removing B from set1, ");
         set1.displaySet();
 
+        System.out.println();
         System.out.println("After removing " + set1.remove() + " from set1, ");
         set1.displaySet();
     } // end main
