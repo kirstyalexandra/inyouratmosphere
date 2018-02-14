@@ -1,12 +1,10 @@
 package Lab03;
 import java.util.Arrays;
-
-
 /**
  * A class that implements the ADT set by using a linked bag.
  * The set is never full.
  *
- * @author YOUR NAME
+ * @author Kirsty Alexandra Nguegang
  * @version 2/6/2018
  */
 public class LinkedSetWithLinkedBag<T extends Comparable<? super T>> implements SetInterface<T>
@@ -74,8 +72,20 @@ public class LinkedSetWithLinkedBag<T extends Comparable<? super T>> implements 
     public void displaySet()
     {
         //TODO Project1
-        this.bagOfSetEntries.display();
-
+        T [] arr = this.toArray();
+        if (this.isEmpty())
+        {
+            System.out.println("The set is empty.");
+        }
+        else
+        {
+            System.out.println("The set contains "  + toArray().length + " string(s), as follows: ");
+            for (int i = 0; i < toArray().length; i++)
+            {
+                System.out.print(arr[i] + " ");
+            }
+            System.out.println();
+        }
     } // end displaySet
 
     public static void main(String[] args)
