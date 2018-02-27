@@ -14,7 +14,7 @@ package Lab05; /**
  *  111111111 * 111111111 is 12345678987654321 - and it is a PALINDROME
  *  1111111111 * 1111111111 is 1234567900987654321 - and it is NOT a PALINDROME.
  *
- * @author YOUR NAME
+ * @author Kirsty Alexandra Nguegang
  * @version 02/20/2018
  */
 import java.math.BigInteger;
@@ -40,7 +40,10 @@ public class Elevens
         System.out.print(ones + " * " + ones + " is " + result);
         boolean pal = isPalindrome(result);
         System.out.println(" - and it is " + (pal?"":"NOT ") + "a PALINDROME");
-
+        if (pal == true)
+        {
+            elevenPals(BigInteger.TEN.multiply(ones).add(BigInteger.ONE));
+        }
         // IMPLEMENT RECURSIVE CALL HERE
         // UTILIZE CONSTANTS FROM BigInteger CLASS
     }

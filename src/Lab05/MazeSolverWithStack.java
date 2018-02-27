@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.Stack;
 
 /**
- * @author YOUR NAME
+ * @author Kirsty Alexandra Nguegang
  * @version 02/20/2018
  */
 public class MazeSolverWithStack
@@ -32,24 +32,55 @@ public class MazeSolverWithStack
     private boolean findPath(int startRow, int startCol)
     {
         // TODO Project #5
-        boolean result = false;
         Stack<MazeFrame> stack = new Stack<>();
         stack.push(new MazeFrame(startRow, startCol));
+        boolean isitGoal = false;
 
-        MazeFrame current = null;
-
-
+        MazeFrame current;
+        while (!stack.empty() && !isitGoal)
+        {
+            current = stack.pop();
+            if (isGoal(current.row, current.col))
+            {
+                isitGoal = true;
+            }
+            else
+            {
+                this.maze[current.row][current.col] = '+';
+                if (isValid(current.row, current.col - 1)) //north
+                {
+                    stack.push(new MazeFrame(current.row, current.col - 1));
+                }
+                if (isValid(current.row + 1, current.col)) //east
+                {
+                    stack.push(new MazeFrame(current.row + 1, current.col));
+                }
+                if (isValid(current.row, current.col + 1))
+                {
+                    stack.push(new MazeFrame(current.row, current.col + 1));
+                }
+                if (isValid(current.row - 1, current.col))
+                {
+                    stack.push(new MazeFrame(current.row - 1, current.col));
+                }
+            }
+        }
         // try moving up (NORTH), next try moving right (EAST),
         // next try moving down (SOUTH), and finally try moving left (WEST)
-
-
-        return result;
+        return isitGoal;
     }
 
     private boolean isInsideMaze(int r, int c)
     {
         // TODO Project #5
-        return false; // THIS IS A STUB
+        boolean result = false;
+        Stack<MazeFrame> stack = new Stack<>();
+        if ((r >= 0 && r < maze.length) && (c >= 0 && c < maze.length))
+        {
+            result = true;
+            stack.push(new MazeFrame(r, c));
+        }
+        return result; // THIS IS A STUB
     }
 
     private boolean isGoal(int r, int c)
@@ -57,11 +88,29 @@ public class MazeSolverWithStack
         return (this.maze[r][c] == 'G');
     }
 
+    private boolean isValid(int r, int c) // method designed to combine isOpen & isGoal
+    {
+        boolean result = false;
+        if (isInsideMaze(r,c) && isOpen(r,c))
+        {
+            result = true;
+        }
+        return result;
+    }
+
     private boolean isOpen(int r, int c)
     {
         // TODO Project #5
         // ., S, or G would be considered open
-        return false; // THIS IS A STUB
+        boolean result = false;
+        Stack<MazeFrame> stack = new Stack<>();
+        if (this.maze[r][c] == 'S' || this.maze[r][c] == 'G' || this.maze[r][c] ==  '.' || this.maze[r][c] == ',')
+        {
+           result = true;
+           stack.push(new MazeFrame(r,c));
+        }
+        return result;
+         // THIS IS A STUB
     }
 
     private boolean setGoal(int r, int c)

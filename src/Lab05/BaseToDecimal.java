@@ -7,7 +7,7 @@ package Lab05;
  * 2. No observe that you can display n in any base between 2 and 9 by replacing 10
  *    with the new base. Write another method to accommodate a given base.
  *
- * @author YOUR NAME
+ * @author Kirsty Alexandra Nguegang
  * @version 2/20/2018
  */
 public class BaseToDecimal
@@ -18,21 +18,27 @@ public class BaseToDecimal
      * @param n an integer to be displayed */
     public static String displayDigits(int n)
     {
-        // TODO Project #1
-        return "???"; // this is a stub
 
+        // TODO Project #
+        // this is a stub
         // IMPLEMENT THE METHOD
 
         // STEP#1 Base case: We have a single positive digit
-
-
+        if (n >= 0 && n < 10)
+        {
+            return ("" + n);
+        }
+        else if (n < 0)
+        {
+            return "- " + displayDigits(n*-1);
+        }
+        else
+        {
+            return displayDigits(n/10) + " " + (n%10);
+        }
 
         // STEP#2 recursive case: negative number
-
-
-
         // STEP#3 recursive case: positive number with more than one digit
-
 
     } // end displayDigits
 
@@ -45,7 +51,19 @@ public class BaseToDecimal
     public static String displayDigits2to9Base(int n, int base)
     {
         // TODO Project #1
-        return "???"; // this is a stub
+         // this is a stub
+        if (n >= 0 && n < base)
+        {
+            return "" + n;
+        }
+        else if (n < 0)
+        {
+            return "- " + displayDigits2to9Base((n*(-1)), base);
+        }
+        else
+        {
+            return displayDigits2to9Base(n/base, base) + " " + (n%base);
+        }
 
         // IMPLEMENT THE METHOD
 

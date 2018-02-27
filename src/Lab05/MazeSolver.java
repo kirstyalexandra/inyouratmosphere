@@ -3,7 +3,7 @@ package Lab05;
 import java.util.*;
 
 /**
- * @author YOUR NAME
+ * @author Kirsty Alexandra Nguegang
  * @version 02/20/2018
  * https://www.cs.bu.edu/teaching/alg/maze/
  */
@@ -30,13 +30,50 @@ public class MazeSolver
     private boolean findPath(int r, int c)
     {
         // TODO Project #4
+        if (!isInsideMaze(r,c))
+        {
+            return false;
+        }
+        if (isGoal(r,c))
+        {
+            return true;
+        }
+        if (!isOpen(r,c))
+        {
+            return false;
+        }
+        this.maze[r][c] = '+';
+        if (findPath(r, c - 1) == true) // north
+        {
+            return true;
+        }
+        if (findPath(r + 1, c) == true) // east
+        {
+            return true;
+        }
+        if (findPath(r, c + 1) == true) //south
+        {
+            return true;
+        }
+        if (findPath(r - 1, c) == true) // west
+        {
+            return true;
+        }
         return false; // THIS IS A STUB
     }
 
     private boolean isInsideMaze(int r, int c)
     {
         // TODO Project #4
-        return false; // THIS IS A STUB
+        if ((r >= 0 && r < maze.length) && (c >= 0 && c < maze.length))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        // THIS IS A STUB
     }
 
     private boolean isGoal(int r, int c)
@@ -48,7 +85,15 @@ public class MazeSolver
     {
         // TODO Project #4
          // ., S, or G would be considered open
-        return false; // THIS IS A STUB
+        if (this.maze[r][c] == 'S' || this.maze[r][c] == 'G' || this.maze[r][c] ==  '.' || this.maze[r][c] == ',')
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+            // THIS IS A STUB
     }
 
     private boolean setGoal(int r, int c)

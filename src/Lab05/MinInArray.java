@@ -10,7 +10,7 @@ package Lab05;
  *  the array and two indices, first and last.
  *  NOTE: You can refer to the method displayArray in Segment 7.18 in the textbook for the inspiration
  *
- * @author YOUR NAME
+ * @author Kirsty Alexandra Nguegang
  * @version 02/20/2018
  */
 public class MinInArray
@@ -25,24 +25,25 @@ public class MinInArray
     {
         // TODO Project #6
         int result = 0;  // THIS IS A STUB
-
         // IMPLEMENT THE METHOD
-
         // STEP #1 validate the input, if incorrect throw BadArgumentsForMinimumException with appropriate message
-
-
+        if ((first > last) || data == null || (first < 0) || last < 0 || data.length <= 0 || first >= data.length || last >= data.length)
+        {
+            throw new BadArgumentsForMinimumException("Wrong input!");
+        }
 
         // STEP #2 base case: first and last are the same
-
-
-
+        if (first == last)
+        {
+            return data[first];
+        }
         // STEP #3 recursive case
-
         // recursively find minimum in each half
-
-
+        int mid = (first + last)/ 2; // to determine middle element
+        int min1 = minimum(data, first, mid); // first half of array
+        int min2 = minimum(data, mid + 1, last); // second half array
+        result = Math.min(min1, min2);
         // set result to the smallest of the two
-
         return result;
     } // end minimum
 
@@ -121,8 +122,8 @@ public class MinInArray
 
         System.out.println();
         System.out.println();
-
-    }
+//
+      }
 
 
     public void testGoodValues()
