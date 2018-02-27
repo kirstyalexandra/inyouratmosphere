@@ -18,11 +18,9 @@ public class BaseToDecimal
      * @param n an integer to be displayed */
     public static String displayDigits(int n)
     {
-
         // TODO Project #
         // this is a stub
         // IMPLEMENT THE METHOD
-
         // STEP#1 Base case: We have a single positive digit
         if (n >= 0 && n < 10)
         {
