@@ -27,11 +27,11 @@ public class PrimesAndComposites
     public void setPrimesAndComposites(ArrayList<Integer> candidates)
     {
         // TODO Project 3
-        int largest = candidates.get(candidates.size() - 1);
         Integer foundPrime;
         Integer maybeComposite;
         Iterator<Integer> candidatesIter = candidates.iterator();
         //have to check last time
+
 
         while (candidatesIter.hasNext())
         {

@@ -2,7 +2,7 @@ package Lab09;
 import java.util.*;
 
 /**
- *
+ * @author Kirsty Alexandra Nguegang
  * @author atb
  * @version 3/27/2018
  */
@@ -29,9 +29,12 @@ public class MatchingGame
     private void initializeList(int numberAmount)
     {
         // TODO Project 6a
-
         ListIterator<Integer> iter = this.theNumbers.listIterator();
-
+        for (int i = 0; i < numberAmount; i++)
+        {
+            int randElement = this.generator.nextInt((MAX_NUMBER + 1) - MIN_NUMBER) + MIN_NUMBER;
+            iter.add(randElement);
+        }
         // generate the numbers and add them to theNumbers using iterator
 
     }
@@ -45,9 +48,25 @@ public class MatchingGame
     private boolean removablePair(Integer first, Integer second)
     {
         // TODO Project 6c
-
         // implement this method
-        return false;
+        boolean result = false;
+        Integer x1, x2, y1, y2;
+
+        x1 = first / 10;
+        x2 = first % 10;
+        y1 = second / 10;
+        y2 = second % 10;
+
+        if (x1 == y1)
+            result = true;
+        else if (x1 == y2)
+            result = true;
+        else if (x2 == y1)
+            result = true;
+        else if (x2 == y2)
+            result = true;
+
+        return result;
     }
 
     /**
@@ -60,10 +79,31 @@ public class MatchingGame
         // TODO Project 6d
         boolean removedAPair = false;
         ListIterator<Integer> scan = this.theNumbers.listIterator();
+        Integer first, second = null;
+        while (scan.hasNext())
+        {
+            first = scan.next();
+            if (scan.hasNext())
+            {
+                second = scan.next();
 
-        Integer first = null;
-        Integer second = null;
+                while (scan.hasNext() && !removablePair(first, second))
+                {
+                    first = second;
+                    second = scan.next();
+                }
 
+                if (removablePair(first, second))
+                {
+                    System.out.println("Removed: " + first + " " + second);
+                    scan.remove();
+                    scan.previous();
+                    scan.remove();
+                    removedAPair = true;
+                }
+            }
+
+        }
         // implement the method
         // this method calls helper method removablePair to see if there is a match
         return removedAPair;
@@ -72,8 +112,20 @@ public class MatchingGame
     private void displayTheNumbers()
     {
         // TODO Project 6b
-
         // using an instance of Iterator display the content of theNumbers
+        Iterator<Integer> numIter = this.theNumbers.iterator();
+        if (!numIter.hasNext())
+        {
+            System.out.println("The list is empty. ");
+        }
+        else
+        {
+            while (numIter.hasNext())
+            {
+                System.out.print(numIter.next() + " ");
+            }
+            System.out.println();
+        }
         // notify the user if the list is empty
     }
 
