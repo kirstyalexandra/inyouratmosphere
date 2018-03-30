@@ -31,30 +31,24 @@ public class PrimesAndComposites
         Integer foundPrime;
         Integer maybeComposite;
         Iterator<Integer> candidatesIter = candidates.iterator();
-        boolean prime[] = new boolean[largest + 1];
-        boolean candidateHaveNext = candidatesIter.hasNext();
+        //have to check last time
 
-        for (int i = 2; i <= largest; i++)
+        while (candidatesIter.hasNext())
         {
-            prime[i] = true;
-        }
-
-        for (int i = 2; candidateHaveNext && i <= largest; i++)
-        {
-            candidatesIter.next();
-            if (prime[i])
-            {
-                this.primes.add(i);
-            }
-            else
-            {
-                this.composites.add(i);
-            }
+            foundPrime = candidatesIter.next();
+            this.primes.add(foundPrime);
             candidatesIter.remove();
-            for (int j = i; j * i <= largest; j++)
+
+            while (candidatesIter.hasNext())
             {
-                prime[i * j] = false;
+                maybeComposite = candidatesIter.next();
+                if (maybeComposite % foundPrime == 0)
+                {
+                    this.composites.add(maybeComposite);
+                    candidatesIter.remove();
+                }
             }
+            candidatesIter = candidates.iterator();
         }
         // fills the primes and composites lists
         // when the method is finished the candidates list is empty

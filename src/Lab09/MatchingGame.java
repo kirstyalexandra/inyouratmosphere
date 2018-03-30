@@ -12,10 +12,13 @@ public class MatchingGame
     final int MAX_NUMBER_OF_SHUFFLES = 5;
     final int MIN_NUMBER = 10;
     final int MAX_NUMBER = 99;
+    Random generator;
+
 
     public MatchingGame(int numberAmount)
     {
         this.theNumbers = new ArrayList<>();
+        generator = new Random(11);
         initializeList(numberAmount);
     }
 
@@ -26,7 +29,7 @@ public class MatchingGame
     private void initializeList(int numberAmount)
     {
         // TODO Project 6a
-        Random generator = new Random(11);
+
         ListIterator<Integer> iter = this.theNumbers.listIterator();
 
         // generate the numbers and add them to theNumbers using iterator
@@ -100,7 +103,7 @@ public class MatchingGame
                 {
                     numberOfShuffles++;
                     System.out.println("Shuffling the numbers.");
-                    Collections.shuffle(this.theNumbers);
+                    Collections.shuffle(this.theNumbers, this.generator);
                     System.out.println("The list after shuffling #" + numberOfShuffles);
                     displayTheNumbers();
                     repeat = true;
