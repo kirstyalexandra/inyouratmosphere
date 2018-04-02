@@ -1,9 +1,11 @@
 package Lab09;
 
+import java.util.Iterator;
+
 /**
  * A class that implements the ADT list by using a chain of nodes.
  * The list has an iterator. The class is similar to LList.
- *
+ * @author Kirsty Alexandra Nguegang
  * @author Frank M. Carrano
  * @author Timothy M. Henry
  * @modifiedBy atb
@@ -199,8 +201,18 @@ public class ReverseLinkedList<T> implements ListInterface<T>
 
     public void displayList()
     {
-        System.out.print("The list contains: " );
+        System.out.println("The list contains 9 entries, as follows:" );
         Node<T> currentNode = this.firstNode;
+        int num = 1;
+        while (currentNode != null)
+        {
+            System.out.println(currentNode.data + " is entry " + num);
+            currentNode = currentNode.next;
+            num++;
+        }
+        System.out.println();
+        System.out.println("Using Iterator methods, the list contains: ");
+        currentNode = this.firstNode;
         while (currentNode != null)
         {
             System.out.print(currentNode.data + " ");
@@ -213,6 +225,19 @@ public class ReverseLinkedList<T> implements ListInterface<T>
     {
         // TODO Project 7
         // please put here the link to the video you followed in your solution
+        // https://www.youtube.com/watch?v=jY-EUKXYT20
+
+        Node<T> currentNode = this.firstNode;
+        Node<T> previous = null;
+        Node<T> after = null;
+        while (currentNode != null)
+        {
+            after = currentNode.next;
+            currentNode.next = previous;
+            previous = currentNode;
+            currentNode = after;
+        }
+        this.firstNode = previous;
     }
 
     public void reverseLinkedListRecursively()
@@ -224,6 +249,18 @@ public class ReverseLinkedList<T> implements ListInterface<T>
     {
         // TODO Project 7
         // please put here the link to the video you followed in your solution
+        // https://www.youtube.com/watch?v=Ip4y7Inx7QY
+        Node nextNode = null;
+        Node a = null;
+        if (currentNode.next != null)
+        {
+            nextNode = currentNode.next;
+            currentNode.next = null;
+            recursiveReverse(nextNode);
+            nextNode.next = currentNode;
+        }
+        else
+            this.firstNode = currentNode;
     }
 
     private class Node<S>
