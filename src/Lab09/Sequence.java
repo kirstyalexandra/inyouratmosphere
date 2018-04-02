@@ -63,6 +63,10 @@ public class Sequence
         {
             result = true;
         }
+        if (this.sequence.size() > other.sequence.size())
+        {
+            result = false;
+        }
         while (iterThis.hasNext() && iterOther.hasNext())
         {
             itemOfThisList = iterThis.next();
@@ -73,10 +77,6 @@ public class Sequence
             } while (iterOther.hasNext() && !itemOfThisList.equals(itemOfOtherList));
             if (itemOfThisList.equals(itemOfOtherList))
                 foundMatch = true;
-        }
-        if (this.sequence.size() > other.sequence.size())
-        {
-            result = false;
         }
         if (foundMatch && !iterThis.hasNext())
         {

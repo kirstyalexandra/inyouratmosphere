@@ -211,14 +211,14 @@ public class ReverseLinkedList<T> implements ListInterface<T>
             num++;
         }
         System.out.println();
-        System.out.println("Using Iterator methods, the list contains: ");
+        System.out.println("Using Iterator methods, the list contains ");
         currentNode = this.firstNode;
         while (currentNode != null)
         {
             System.out.print(currentNode.data + " ");
             currentNode = currentNode.next;
         }
-        System.out.println();
+        System.out.println("\n");
     } // end displayList
 
     public void reverseLinkedListIteratively()
@@ -293,13 +293,16 @@ public class ReverseLinkedList<T> implements ListInterface<T>
         myList.add("75");
         myList.add("85");
         myList.add("95");
+        System.out.println("\nList should contain: 15 25 35 45 55 65 75 85 95\n");
+        System.out.println("Using ADT list operations, the list contains: \n");
 
         myList.displayList();
 
         System.out.println("\n*** Calling reverseLinkedListIteratively ***");
         myList.reverseLinkedListIteratively();
 
-        System.out.println("\nExpected result: 95 85 75 65 55 45 35 25 15");
+        System.out.println("\nList should contain: 95 85 75 65 55 45 35 25 15\n");
+        System.out.println("Using ADT list operations, the list contains: \n");
         myList.displayList();
 
 
@@ -307,7 +310,8 @@ public class ReverseLinkedList<T> implements ListInterface<T>
 
         System.out.println("\n\n*** Calling reverseLinkedListRecursively ***");
         myList.reverseLinkedListRecursively();
-        System.out.println("\nExpected result: 15 25 35 45 55 65 75 85 95");
+        System.out.println("\nList should contain: 15 25 35 45 55 65 75 85 95\n");
+        System.out.println("Using ADT list operations, the list contains: \n");
         myList.displayList();
         System.out.println("*** Done ***");
     }  // end main

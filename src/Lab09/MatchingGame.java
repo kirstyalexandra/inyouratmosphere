@@ -95,7 +95,7 @@ public class MatchingGame
 
                 if (removablePair(first, second))
                 {
-                    System.out.println("Removed: " + first + " " + second);
+                    System.out.println("\tRemoved: " + first + " " + second);
                     scan.remove();
                     scan.previous();
                     scan.remove();

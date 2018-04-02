@@ -36,6 +36,7 @@ public class PrimesAndComposites
         while (candidatesIter.hasNext())
         {
             foundPrime = candidatesIter.next();
+            System.out.println("==> Found the prime " + foundPrime);
             this.primes.add(foundPrime);
             candidatesIter.remove();
 
@@ -44,6 +45,7 @@ public class PrimesAndComposites
                 maybeComposite = candidatesIter.next();
                 if (maybeComposite % foundPrime == 0)
                 {
+                    System.out.println("====> Found the composite " + maybeComposite);
                     this.composites.add(maybeComposite);
                     candidatesIter.remove();
                 }
