@@ -63,24 +63,27 @@ public class Sequence
         {
             result = true;
         }
-        if (this.sequence.size() > other.sequence.size())
+        else if (this.sequence.size() > other.sequence.size())
         {
             result = false;
         }
-        while (iterThis.hasNext() && iterOther.hasNext())
+        else
         {
-            itemOfThisList = iterThis.next();
-            do
+            while (iterThis.hasNext() && iterOther.hasNext())
             {
-                itemOfOtherList = iterOther.next();
-                foundMatch = false;
-            } while (iterOther.hasNext() && !itemOfThisList.equals(itemOfOtherList));
-            if (itemOfThisList.equals(itemOfOtherList))
-                foundMatch = true;
-        }
-        if (foundMatch && !iterThis.hasNext())
-        {
-            result = true;
+                itemOfThisList = iterThis.next();
+                do
+                {
+                    itemOfOtherList = iterOther.next();
+                    foundMatch = false;
+                } while (iterOther.hasNext() && !itemOfThisList.equals(itemOfOtherList));
+                if (itemOfThisList.equals(itemOfOtherList))
+                    foundMatch = true;
+            }
+            if (foundMatch && !iterThis.hasNext())
+            {
+                result = true;
+            }
         }
         return result;
     }
