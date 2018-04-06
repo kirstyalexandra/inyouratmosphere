@@ -23,7 +23,7 @@ import java.util.TreeSet;
  *       would have if inserted into the list of sorted data.
  *
  *
- * @author YOUR NAME
+ * @author Kirsty Alexandra Nguegang
  * @version 4/3/2018
  */
 
@@ -44,46 +44,92 @@ public class IntervalSearch
 	{
 		int leftBoundary = -1;
 		int rightBoundary = sortedData.length;
-
-		System.out.println("Inside the findInterval method - you need to implement me iteratively");
-
+		//System.out.println("Inside the findInterval method - you need to implement me iteratively");
 		//System.out.println("Target list is " + targetValues);
-
-		    // STEP 1 - Run the code first before starting the implementation
-
+		// STEP 1 - Run the code first before starting the implementation
 		if (sortedData.length > 0 && targetValues.size() > 0)
 		{
 			// YOUR CODE GOES HERE
 			// Implement the method WITHOUT RECURSION
-
 			// STEP 2 - get the smallest and the largest targets
-
-			   //System.out.println("Smallest target is " + smallestTarget
-			   //                      + "; largest target is " + largestTarget);
+			T smallestTarget = targetValues.pollFirst();
+			T largestTarget = targetValues.pollLast();
+			System.out.println("Smallest target is " + smallestTarget + "; largest target is " + largestTarget);
 
 			// STEP 3 - utilizing the binary search algorithm search for the smallest target
 			//          DO NOT USE RECURSION
+			if ((smallestTarget.compareTo(sortedData[0]) < 0))
+			{
+				leftBoundary = -1;
+			}
+			else
+			{
+				boolean found = false;
+				int left = 0;
+				int right = sortedData.length - 1;
 
-				//System.out.println("\tLeft: " + left + " Middle: " + mid + " Right: " + right);
+				while (left <= right && !found)
+				{
+					int mid = left + (right - left) / 2;
+					int comparison = smallestTarget.compareTo(sortedData[mid]);
 
-
-
+					if (comparison > 0)
+					{
+						left = mid + 1;
+					}
+					else if (comparison < 0)
+					{
+						right = mid - 1;
+					}
+					else
+					{
+						found = true;
+						leftBoundary = mid;
+					}
+				}
+			}
+			//System.out.println("\tLeft: " + left + " Middle: " + mid + " Right: " + right);
 			// STEP 4 - set the left boundary to the appropriate index
-
-
-			       //System.out.println("\tLeft Boundary set to " + leftBoundary);
+			System.out.println("\tLeft Boundary set to " + leftBoundary);
 
 			// STEP 5 - utilizing the binary search algorithm search for the largest target
 			//          DO NOT USE RECURSION
 			//          NOTE that you can reduce the searches by setting the left index
 			//               to the leftBoundary that you calculated in step 4
+			if (largestTarget.compareTo(sortedData[sortedData.length - 1]) > 0)
+			{
+				rightBoundary = sortedData.length;
+			}
+			else
+			{
+				boolean found = false;
+				int left = leftBoundary;
+				int right = sortedData.length - 1;
 
-				//System.out.println("\tLeft: " + left + " Middle: " + mid + " Right: " + right);
+				while (left <= right && !found)
+				{
+					int mid = left + (right - left) / 2;
+					int comparison = largestTarget.compareTo(sortedData[mid]);
 
+					if (comparison > 0)
+					{
+						left = mid + 1;
+					}
+					else if (comparison < 0)
+					{
+						right = mid - 1;
+					}
+					else
+					{
+						found = true;
+						rightBoundary = mid;
+					}
+				}
+			}
+
+			//System.out.println("\tLeft: " + left + " Middle: " + mid + " Right: " + right);
 			// STEP 6 - set the right boundary to the appropriate index
-
-
-			       //System.out.println("\tRight Boundary set to " + rightBoundary);
+			System.out.println("\tRight Boundary set to " + rightBoundary);
 		}
 
 		return new Interval(leftBoundary, rightBoundary);
@@ -110,7 +156,7 @@ public class IntervalSearch
 
 	public static void main(String args[])
 	{
-		Random generator = new Random();
+		Random generator = new Random(7);
 		Scanner keyboard = new Scanner(System.in);
 		System.out.println("How many elements in the array?");
 		final int DEFAULT = 10;

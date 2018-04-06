@@ -44,22 +44,37 @@ public class SortedListWithMode <T>
         // TODO Project 2c
         Integer mode = null;
         int modeCount = 0;
-        int maybeModeCount = 0;
-        Integer max = null;
 
-        if (mode != null && this.myList.getLength() > 2)
+        if (this.myList.getLength() > 0)
         {
-            for (int i = 1; i < this.myList.getLength(); i++)
+            int tempModeCount = 1;
+            Integer tempMode = this.myList.getEntry(1);
+            for (int i = 2; i <= this.myList.getLength(); i++)
             {
-                if (this.myList.getEntry(i + 1).equals(this.myList.getEntry(i)))
+                if (tempMode != this.myList.getEntry(i))
                 {
-                    modeCount++;
-                    mode = this.myList.getEntry(i + 1);
+                    if (tempModeCount > modeCount)
+                    {
+                        mode = tempMode;
+                        modeCount = tempModeCount;
+                        tempMode = this.myList.getEntry(i);
+                        tempModeCount = 1;
+                    }
+                    else
+                    {
+                        tempMode = this.myList.getEntry(i);
+                        tempModeCount = 1;
+                    }
                 }
                 else
                 {
-                    
+                    tempModeCount++;
                 }
+            }
+            if (tempModeCount > modeCount)
+            {
+                modeCount = tempModeCount;
+                mode = tempMode;
             }
         }
 //
