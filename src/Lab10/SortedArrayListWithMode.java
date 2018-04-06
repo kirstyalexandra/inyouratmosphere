@@ -49,11 +49,40 @@ public class SortedArrayListWithMode<T extends Comparable<? super T>>
     public T getMode()
     {
         // TODO Project 2a
-//        T max = this.list[1];
-        T mode = getEntry(1);
+        T mode = null;
         int modeCount = 0;
-
-
+        if (this.numberOfEntries > 0)
+        {
+            int tempModeCount = 1;
+            T tempMode = this.list[1];
+            for (int i = 2; i <= this.numberOfEntries; i++)
+            {
+                if (tempMode != this.list[i])
+                {
+                    if (tempModeCount > modeCount)
+                    {
+                        mode = tempMode;
+                        modeCount = tempModeCount;
+                        tempMode = this.list[i];
+                        tempModeCount = 1;
+                    }
+                    else
+                    {
+                        tempMode = this.list[i];
+                        tempModeCount = 1;
+                    }
+                }
+                else
+                {
+                    tempModeCount++;
+                }
+            }
+            if (tempModeCount > modeCount)
+            {
+                modeCount = tempModeCount;
+                mode = tempMode;
+            }
+        }
 //        System.out.println("IMPLEMENT Part a: manipulating directly the instance variables of SortedArrayListWithMode,"
 //                + "find the mode. The mode is the most frequent value.");
 //        System.out.println("NOTE - the list is 1 based!");
