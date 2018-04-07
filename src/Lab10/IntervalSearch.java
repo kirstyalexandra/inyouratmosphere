@@ -67,10 +67,11 @@ public class IntervalSearch
 				boolean found = false;
 				int left = 0;
 				int right = sortedData.length - 1;
+				int mid = 0;
 
 				while (left <= right && !found)
 				{
-					int mid = left + (right - left) / 2;
+					mid = left + (right - left) / 2;
 					int comparison = smallestTarget.compareTo(sortedData[mid]);
 
 					if (comparison > 0)
@@ -86,6 +87,10 @@ public class IntervalSearch
 						found = true;
 						leftBoundary = mid;
 					}
+				}
+				if (!found)
+				{
+					mid--;
 				}
 			}
 			//System.out.println("\tLeft: " + left + " Middle: " + mid + " Right: " + right);
@@ -105,10 +110,11 @@ public class IntervalSearch
 				boolean found = false;
 				int left = leftBoundary;
 				int right = sortedData.length - 1;
+				int mid = 0;
 
 				while (left <= right && !found)
 				{
-					int mid = left + (right - left) / 2;
+					mid = left + (right - left) / 2;
 					int comparison = largestTarget.compareTo(sortedData[mid]);
 
 					if (comparison > 0)
@@ -124,6 +130,10 @@ public class IntervalSearch
 						found = true;
 						rightBoundary = mid;
 					}
+				}
+				if (!found)
+				{
+					mid++;
 				}
 			}
 
