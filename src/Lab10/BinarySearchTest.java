@@ -1,39 +1,27 @@
 package Lab10;
 
-import java.util.Arrays;
 import java.util.Scanner;
-import java.util.TreeSet;
 
 public class BinarySearchTest
 {
-    public int binarySearch(int [] a, int desiredItem)
-    {
-        int left = 0;
-        int right = a.length - 1;
-        int mid = 0;
-        boolean found = false;
-        while (left <= right && !found)
+    private int binarySearch(int[] sortedArray, int target, int start, int end) {
+
+        if(start <= end)
         {
-            mid = left + (right - left)/2;
-            if (desiredItem > a[mid])
+            int mid = (start + end)/2;
+            if(sortedArray[mid] == (target))
             {
-                left = mid + 1;
-            }
-            else if (desiredItem < a[mid])
-            {
-                right = mid - 1;
-            }
-            else
-            {
-                found = true;
                 return mid;
             }
+            else if (target < sortedArray[mid])
+            {
+                return binarySearch(sortedArray, target, start, mid - 1);
+            }
+            else {
+                return binarySearch(sortedArray, target, mid + 1, end);
+            }
         }
-        if (!found)
-        {
-            mid++;
-        }
-        return mid;
+        return start;
     }
 
     public static void main(String args[])
@@ -48,7 +36,7 @@ public class BinarySearchTest
         }
         System.out.println("\nEnter a target value: ");
         int target = keyboard.nextInt();
-        int index = bst.binarySearch(testValues, target);
+        int index = bst.binarySearch(testValues, target, 0, testValues.length - 1);
         System.out.println("The target was found at " + index);
     }
 }
