@@ -17,18 +17,32 @@ public class BingoCard
     public BingoCard()
     {
         // TODO Project 2.2
-        this.card = new HashMap<Character, TreeSet<Integer>>();
+        this.card = new HashMap<>();
+        int num = 0; // used to offset numbers
+        TreeSet<Integer> tree = new TreeSet<>();
+        Random rand = new Random();
+        for (int i = 0; i < BINGO_KEYS.length(); i++)
+        {
+            while (tree.size() <= NUMBERS_PER_LETTER)
+            {
+                tree.add((rand.nextInt(MAX_VALUES_PER_LETTER) + (num * MAX_VALUES_PER_LETTER)));
+                this.card.put(BINGO_KEYS.charAt(i), tree);
+            }
+            new TreeSet<>();
+        }
     }
 
     public boolean hasNumber(BingoChip chip)
     {
-        // TODO Project 2.2
+        // TODO Project 2.2 - not sure about this method
         boolean result = false;
-        if (this.card.containsKey(chip.getNumber()))
+        if (this.card.values().contains(chip.getNumber()))
         {
             result = true;
-            //this.card.put(chip.getLetter(), 0);
+//            this.card.put(chip.getLetter(), 0);
         }
+        else
+            result = true;
         return result;
     }
     public String toString()
@@ -37,13 +51,14 @@ public class BingoCard
 
         // utilize StringBuffer and String.format
         // utilize forEach lambda construct to process a row
+
         return "???";
     }
 
     public boolean equals(Object o)
     {
         // TODO Project 2.2
-        boolean same = true;
+        boolean same = false;
         if (this == o)
         {
             same = true;
@@ -54,11 +69,11 @@ public class BingoCard
         }
         else
         {
-            // cast o to BingoCard
-            // check size
-            // check if letter && number are the same
-            // if they are, same = true;
-            // else, same = false;
+            BingoCard other = (BingoCard) o;
+            if (this.card.equals(other.card))
+            {
+                same = true;
+            }
         }
 
         return same;

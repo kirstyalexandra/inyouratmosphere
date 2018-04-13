@@ -1,7 +1,7 @@
 package Lab11;
 
 /**
- * @author YOUR NAME
+ * @author Kirsty Alexandra Nguegang
  * @version 4/10/2018
  */
 
@@ -26,8 +26,10 @@ public class BingoGame
     {
         // TODO Project 2.4
         this.bingoDrum = new ArrayList<>();
-
-
+        for (int i = 0; i < NUMBER_OF_CHIPS; i++)
+        {
+            this.bingoDrum.set(i, new BingoChip(i));
+        }
     }
 
     private void createPlayers()
@@ -49,23 +51,34 @@ public class BingoGame
     public int getNumberOfPulledChips()
     {
         // TODO Project 2.4
-        return 0; // This is a stub
+        return NUMBER_OF_CHIPS - this.bingoDrum.size(); // This is a stub
     }
 
     public BingoChip pullChip()
     {
         // TODO Project 2.4
         Random rand = new Random();
-        int randInt = rand.nextInt(NUMBER_OF_CHIPS);
-        BingoChip bc = this.bingoDrum.get(randInt);
+        int randInt = rand.nextInt(this.bingoDrum.size());
+        BingoChip bc = this.bingoDrum.remove(randInt);
         return bc; // This is a stub
     }
 
-    public void play()
-    {
+    public void play() {
         // TODO Project 2.4
-        // while isWinner is false
-            // call pullChip
-            //
+        // while there is no winner && the bingo drum isn't empty
+        //{
+
+                BingoChip bc = pullChip();
+                System.out.println(" ---> Calling: " + bc.toString());
+                for (int i = 0; i < this.players.length; i++)
+                {
+                    this.players[i].checkCard(bc);
+                    this.players[i].printCard();
+                    if (this.players[i].isWinner())
+                        System.out.println("!!! Player " + i + " has called BINGO !!!");
+                    //somehow break out of play
+                }
+
+                System.out.println(getNumberOfPulledChips() + " chips were called.");
     }
 }

@@ -1,5 +1,7 @@
 package Lab11;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.*;
 
 /**
@@ -20,14 +22,10 @@ public class SetDictionary<K extends Comparable<? super K>> implements SetInterf
     public boolean add(K newEntry)
     {
         // TODO Project
-        boolean result = false;
-        try
+        boolean result = true;
+        if (this.items.put(newEntry, true) == null)
         {
-            result = this.items.put(newEntry, true);
-        }
-        catch (NullPointerException npe)
-        {
-            //System.out.println("Null pointer exception.");
+            result = false;
         }
         return result;
     } // end add
@@ -77,11 +75,7 @@ public class SetDictionary<K extends Comparable<? super K>> implements SetInterf
         else
         {
             SetDictionary<K> other = (SetDictionary<K>) o;
-            if (other.getCurrentSize() != this.getCurrentSize())
-            {
-                same = false;
-            }
-            else if (this.items.equals(o))
+            if (this.items.equals(other.items))
             {
                 same = true;
             }
@@ -92,7 +86,7 @@ public class SetDictionary<K extends Comparable<? super K>> implements SetInterf
     public Iterator<K> getIterator()
     {
         // TODO Project 1
-        Set itemSet = this.items.entrySet();
+        Set<K> itemSet = this.items.keySet();
         return itemSet.iterator();
     } // end getIterator
 
@@ -129,10 +123,10 @@ public class SetDictionary<K extends Comparable<? super K>> implements SetInterf
         {
             result.add(k);
         });
-        other.forEach((k ->
+        other.items.forEach((k, v) ->
         {
             result.add(k);
-        }));
+        });
         //MUST BE IMPLEMENTED WITH ITERATORS USING forEach lambda CONSTRUCT
         // AS SHOWN IN LectureDictionary EXAMPLES
         return result;
@@ -142,6 +136,7 @@ public class SetDictionary<K extends Comparable<? super K>> implements SetInterf
     {
         // TODO Project 1
         SetInterface<K> result = new SetDictionary<>();
+        SetDictionary<K> other = (SetDictionary<K>) otherSet;
         //MUST BE IMPLEMENTED WITH ITERATORS
 
         // UTILIZE TRY_CATCH BLOCK
@@ -159,29 +154,28 @@ public class SetDictionary<K extends Comparable<? super K>> implements SetInterf
 //        {
 //            System.out.println("Finished creating intersection.");
 //        }
-        Iterator<K> otherItr = otherSet.getIterator();
-        Iterator<K> itemsItr = getIterator();
+        Iterator<K> otherItr = other.iterator();
+        Iterator<K> itemsItr = iterator();
         try
         {
-            K otherItem = otherItr.next();
-            K item = itemsItr.next();
-            while (true)
-            {
-                if (item.equals(otherItem))
+                K otherItem = otherItr.next();
+                K item = itemsItr.next();
+                while (true)
                 {
-                    result.add(item);
-                    item = itemsItr.next();
-                    otherItem = otherItr.next();
+                    if (item.equals(otherItem))
+                    {
+                        result.add(item);
+                        item = itemsItr.next();
+                        otherItem = otherItr.next();
+                    }
+                    else if (item.compareTo(otherItem) < 0)
+                    {
+                        item = itemsItr.next();
+                    }
+                    else {
+                        otherItem = otherItr.next();
+                    }
                 }
-                else if (item.compareTo(otherItem) < 0)
-                {
-                    item = itemsItr.next();
-                }
-                else
-                {
-                    otherItem = otherItr.next();
-                }
-            }
         }
         catch (NoSuchElementException nsee)
         {

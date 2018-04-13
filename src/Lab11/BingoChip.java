@@ -25,26 +25,8 @@ public class BingoChip
     private void setLetter()
     {
         // TODO Project 2.1 - have to come up with a formula to calculate the letter
-        if (this.number >= 1 && this.number <= 15)
-        {
-            this.letter = 'B';
-        }
-        else if (this.number >= 16 && this.number <= 30)
-        {
-            this.letter = 'I';
-        }
-        else if (this.number >= 31 && this.number <= 45)
-        {
-            this.letter = 'N';
-        }
-        else if (this.number >= 46 && this.number <= 60)
-        {
-            this.letter = 'G';
-        }
-        else
-        {
-            this.letter= 'O';
-        }
+        int index = this.number/BingoCard.MAX_VALUES_PER_LETTER;
+        this.letter = BingoCard.BINGO_KEYS.charAt(index);
     }
 
     public int getNumber()
@@ -61,7 +43,7 @@ public class BingoChip
 
     public String toString()
     {
-        // TODO Project 2.1 - not sure what this prints out
-        return "um";
+        // TODO Project 2.1
+        return getLetter() + " " + getNumber();
     }
 }

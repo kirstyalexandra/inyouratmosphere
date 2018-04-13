@@ -21,14 +21,17 @@ public class Player
     public boolean isWinner()
     {
     	// TODO 2.3
-        return false;
+
+        return this.bingoChars.size() == BingoCard.BINGO_KEYS.length();
     }
 
     public void checkCard(BingoChip chip)
     {
-        // TODO 2.3
-        // if bingo card has same number as bingo chip
-        // add bingo letter to bingoChars
+        // TODO 2.3 - not sure about if statement
+        if (this.bingoCard.equals(chip.getNumber()))
+        {
+            this.bingoChars.add(chip.getLetter());
+        }
     }
 
     public void printCard()
