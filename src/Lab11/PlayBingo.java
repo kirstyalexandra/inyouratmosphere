@@ -1,7 +1,7 @@
 package Lab11;
 
 /**
- * @author YOUR NAME
+ * @author Kirsty Alexandra Nguegang
  * @version 4/10/2018
  */
 
@@ -15,11 +15,12 @@ public class PlayBingo
 
         Scanner scan = new Scanner(System.in);
         int numOfPlayers;
-        do
+        System.out.println("Enter number of players.");
+        numOfPlayers = scan.nextInt();
+        if(numOfPlayers < 1)
         {
-            System.out.println("Enter number of players.");
-            numOfPlayers = scan.nextInt();
-        } while (numOfPlayers < 1);
+            numOfPlayers = 1;
+        }
 
         BingoGame game = new BingoGame(numOfPlayers);
 

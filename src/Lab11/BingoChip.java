@@ -24,8 +24,8 @@ public class BingoChip
 
     private void setLetter()
     {
-        // TODO Project 2.1 - have to come up with a formula to calculate the letter
-        int index = this.number/BingoCard.MAX_VALUES_PER_LETTER;
+        // TODO Project 2.1
+        int index = (this.number - 1)/BingoCard.MAX_VALUES_PER_LETTER;
         this.letter = BingoCard.BINGO_KEYS.charAt(index);
     }
 

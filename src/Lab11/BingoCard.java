@@ -19,41 +19,48 @@ public class BingoCard
         // TODO Project 2.2
         this.card = new HashMap<>();
         int num = 0; // used to offset numbers
-        TreeSet<Integer> tree = new TreeSet<>();
         Random rand = new Random();
         for (int i = 0; i < BINGO_KEYS.length(); i++)
         {
-            while (tree.size() <= NUMBERS_PER_LETTER)
+            TreeSet<Integer> tree = new TreeSet<>();
+            while (tree.size() < NUMBERS_PER_LETTER)
             {
-                tree.add((rand.nextInt(MAX_VALUES_PER_LETTER) + (num * MAX_VALUES_PER_LETTER)));
-                this.card.put(BINGO_KEYS.charAt(i), tree);
+                tree.add((rand.nextInt(MAX_VALUES_PER_LETTER - 1) + 1 + (num * MAX_VALUES_PER_LETTER)));
             }
-            new TreeSet<>();
+            this.card.put(BINGO_KEYS.charAt(i), tree);
+            num++;
         }
     }
 
     public boolean hasNumber(BingoChip chip)
     {
-        // TODO Project 2.2 - not sure about this method
+        // TODO Project 2.2
         boolean result = false;
-        if (this.card.values().contains(chip.getNumber()))
+        TreeSet<Integer> tree = this.card.get(chip.getLetter());
+        if (tree.contains(chip.getNumber()))
         {
             result = true;
-//            this.card.put(chip.getLetter(), 0);
+            tree.add(0);
+            this.card.put(chip.getLetter(), tree);
         }
-        else
-            result = true;
         return result;
     }
     public String toString()
     {
-        // TODO Project 2.2 - gonna come back here
-
+        // TODO Project 2.2
         // utilize StringBuffer and String.format
         // utilize forEach lambda construct to process a row
-
-        return "???";
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < BINGO_KEYS.length(); i++)
+        {
+            TreeSet<Integer> tree = this.card.get(BINGO_KEYS.charAt(i));
+            sb.append(BINGO_KEYS.charAt(i) + "\t");
+            tree.forEach(v -> sb.append(v + " "));
+            sb.append("\n");
+        }
+        return sb.toString();
     }
+
 
     public boolean equals(Object o)
     {
@@ -75,7 +82,6 @@ public class BingoCard
                 same = true;
             }
         }
-
         return same;
     }
 }

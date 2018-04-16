@@ -86,8 +86,7 @@ public class SetDictionary<K extends Comparable<? super K>> implements SetInterf
     public Iterator<K> getIterator()
     {
         // TODO Project 1
-        Set<K> itemSet = this.items.keySet();
-        return itemSet.iterator();
+        return this.items.keySet().iterator();
     } // end getIterator
 
     public Iterator<K> iterator()
@@ -119,17 +118,14 @@ public class SetDictionary<K extends Comparable<? super K>> implements SetInterf
         // TODO Project 1
         SetDictionary<K> other = (SetDictionary<K>) otherSet;
         SetInterface<K> result = new SetDictionary<>();
-        this.items.forEach((k, v) ->
-        {
-            result.add(k);
-        });
-        other.items.forEach((k, v) ->
-        {
-            result.add(k);
-        });
+
+        this.items.forEach((k, v) -> result.add(k));
+        other.items.forEach((k, v) -> result.add(k));
+
+        return result;
         //MUST BE IMPLEMENTED WITH ITERATORS USING forEach lambda CONSTRUCT
         // AS SHOWN IN LectureDictionary EXAMPLES
-        return result;
+
     } // end union
 
     public SetInterface<K> intersection(SetInterface<K> otherSet)
@@ -137,43 +133,28 @@ public class SetDictionary<K extends Comparable<? super K>> implements SetInterf
         // TODO Project 1
         SetInterface<K> result = new SetDictionary<>();
         SetDictionary<K> other = (SetDictionary<K>) otherSet;
-        //MUST BE IMPLEMENTED WITH ITERATORS
-
-        // UTILIZE TRY_CATCH BLOCK
-//        try
-//        {
-//            while (true)
-//            {
-//
-//
-//
-//
-//
-//            } // end while
-//        } catch (NoSuchElementException nsee)
-//        {
-//            System.out.println("Finished creating intersection.");
-//        }
         Iterator<K> otherItr = other.iterator();
         Iterator<K> itemsItr = iterator();
         try
         {
                 K otherItem = otherItr.next();
                 K item = itemsItr.next();
+                int comparison = item.compareTo(otherItem);
                 while (true)
                 {
-                    if (item.equals(otherItem))
+                    if (comparison == 0)
                     {
                         result.add(item);
                         item = itemsItr.next();
-                        otherItem = otherItr.next();
+                        otherItr.next();
                     }
-                    else if (item.compareTo(otherItem) < 0)
+                    else if (comparison < 0)
                     {
                         item = itemsItr.next();
                     }
-                    else {
-                        otherItem = otherItr.next();
+                    else
+                    {
+                        otherItr.next();
                     }
                 }
         }
@@ -181,7 +162,6 @@ public class SetDictionary<K extends Comparable<? super K>> implements SetInterf
         {
             System.out.println("Finished creating intersection.");
         }
-
         return result;
     } // end intersection
 
