@@ -1,5 +1,6 @@
 package Lab10;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class BinarySearchTest
@@ -29,6 +30,7 @@ public class BinarySearchTest
         Scanner keyboard = new Scanner(System.in);
         BinarySearchTest bst = new BinarySearchTest();
         int [] testValues = {2, 9, 17, 26, 37, 44, 50, 68, 74};
+        Random rand = new Random();
         System.out.println("Here is the sorted array: ");
         for (int i = 1; i <= testValues.length; i++)
         {

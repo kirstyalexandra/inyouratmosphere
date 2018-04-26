@@ -65,42 +65,67 @@ public class SolveWithHashing
         Iterator<Integer> iterator = this.hashedDictionary.getValueIterator();
         Integer result = null;
         Integer item = iterator.next();
-
-        if (iterator.hasNext())
-            item = iterator.next();
-
+        Integer item2 = null;
         while (iterator.hasNext())
         {
             if (item > 0)
             {
                 item = iterator.next();
             }
-            else if (item < 0)
+            else
             {
-
+                item2 = iterator.next();
+                if (item2 < 0)
+                {
+                    if (item2 > item)
+                    {
+                        item = item2;
+                    }
+                }
             }
         }
-
         this.hashedDictionary.displayHashTable();
-        result = (((-1) * max) - 1);
-        return a[result];
+        if (item < 0)
+            result = a[((-1) * item) - 1];
+        else
+            result = null;
+        return result;
     }
 
     public boolean lookForPair(int[] a, int[] b, int k)
     {
         // TODO Project1 #2
-        int [] selectedSet;
-        if (a.length > b.length)
-            selectedSet = b;
-        else
-            selectedSet = a;
-
-        Hashtable<Integer, Integer> hashtable = new Hashtable<>(selectedSet.length);
-        for(int i = 0; i < selectedSet.length; i++)
+        boolean found = false;
+        int [] smallest;
+        int [] biggest;
+        if (a.length < b.length)
         {
-            hashtable.put(selectedSet[i], selectedSet[i]);  // key & value = element
+            smallest = a;
+            biggest = b;
         }
-        return false;
+        else
+        {
+            smallest = b;
+            biggest = a;
+        }
+        System.out.println("toPutInHashTable: " + Arrays.toString(smallest));
+        System.out.println("toCheck: " + Arrays.toString(biggest));
+        HashedDictionary<Integer, Integer> hashTable = new HashedDictionary<>(smallest.length);
+        for (int i = 0; i < smallest.length; i++)
+        {
+            hashTable.add(smallest[i], smallest[i]);
+        }
+        for (int i = 0; i < biggest.length && !found; i++)
+        {
+            int difference = k - biggest[i];
+            Integer result = hashTable.getValue(difference);
+            if (result != null)
+            {
+                System.out.println("The pair {" + biggest[i] + ", " + difference + "} adds up to " + k);
+                found = true;
+            }
+        }
+        return found;
     }
 
     public static void main(String[] args)
