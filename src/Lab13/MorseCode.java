@@ -7,7 +7,7 @@ import java.io.*;
 /**
  * A class that implements text encoding/decoding with Morse Code
  *
- * @author YOUR NAME
+ * @author Kirsty Alexandra Nguegang
  * @version 4/24/2018
  */
 
@@ -28,7 +28,7 @@ public class MorseCode
         String code = null;
         try
         {
-            Scanner file = new Scanner(new File("MorseCode.txt"));
+            Scanner file = new Scanner(new File("C:\\Users\\Bertrand\\inyouratmosphere\\src\\Lab13\\MorseCode.txt")); // remember to put back "MorseCode.txt"
             System.out.println("The Morse Code:");
             System.out.println("===============");
 
@@ -71,17 +71,40 @@ public class MorseCode
         }
     }
 
+    // Given a string, the method decodes the string by scanning through the tree and appends the letters to the correct string
     private void decode(String encoded)
     {
         // TODO Project 1
+        // ignore spaces
         System.out.println("Decoding \"" + encoded + "\"");
         BinaryNode<Character> current = this.root;
-        StringBuilder answer = new StringBuilder();;
-
-
+        StringBuilder answer = new StringBuilder();
+        Scanner lineScan = new Scanner(encoded);
+        try
+        {
+            while (lineScan.hasNext())
+            {
+                String element = lineScan.next();
+                for (int i = 0; i < element.length(); i++)
+                {
+                    char cElement = element.charAt(i);
+                    if (cElement == '.') // branch left for dot
+                    {
+                        current = current.getLeftChild();
+                    } else if (cElement == '_') // branch right for underscore
+                    {
+                        current = current.getRightChild();
+                    }
+                }
+                answer.append(current.getData());
+                current = this.root;
+            }
+        }
+        catch (NullPointerException npe) // current is going to throw null pointer exception
+        {
+            System.out.println("Not a Morse Code pattern.");
+        }
         // YOUR CODE GOES HERE
-
-
         System.out.println("The decoded string is \"" + answer.toString() + "\"");
     }
 

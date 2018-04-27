@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * A class that implements text encoding using Huffman compression algorithm
  *
- * @author YOUR NAME
+ * @author Kirsty Alexandra Nguegang
  * @version 4/24/2018
  */
 public class EncodeApplication
