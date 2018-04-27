@@ -13,24 +13,11 @@ import java.util.*;
 
 public class WorkingWithBinaryTrees
 {
-
-    //                if (nextNode.hasLeftChild() || nextNode.hasRightChild())
-//                {
-//                    int comparison1 = nextNode.getLeftChild().getData().compareTo(nextNode.getData());
-//                    int comparison2 = nextNode.getRightChild().getData().compareTo(nextNode.getData());
-//                    if ((nextNode.getRightChild() != null && nextNode.getLeftChild() != null))
-//                    {
-//                        if (comparison1 > 1 || comparison2 < 1)
-//                            isBinaryTree = false;
-//                    }
-//                }
     public boolean isBST(BinaryNode<String> root)
     {
         boolean isBinaryTree = true;
         Stack<BinaryNode<String>> nodeStack = new Stack<>();
         BinaryNode<String> currentNode = root;
-        int comparison1 = 0;
-        int comparison2 = 0;
 
         while ((!nodeStack.isEmpty() || currentNode != null) & isBinaryTree)
         {
@@ -44,22 +31,6 @@ public class WorkingWithBinaryTrees
             {
                 BinaryNode<String> nextNode = nodeStack.pop();
                 assert nextNode != null;
-                if (nextNode.getRightChild() != null  && nextNode.getLeftChild() == null)
-                {
-                    comparison1 = nextNode.getLeftChild().getData().compareTo(nextNode.getData());
-                }
-                else if (nextNode.getRightChild() == null && nextNode.getLeftChild() != null)
-                {
-                    comparison2 = nextNode.getRightChild().getData().compareTo(nextNode.getData());
-                }
-                else if (nextNode.getLeftChild() != null && nextNode.getRightChild() != null)
-                {
-                    comparison1 = nextNode.getLeftChild().getData().compareTo(nextNode.getData());
-                    comparison2 = nextNode.getRightChild().getData().compareTo(nextNode.getData());
-                }
-                if (comparison1 > 1 || comparison2 < 1)
-                    isBinaryTree = false;
-
                 System.out.print(nextNode.getData() + " ");
                 currentNode = nextNode.getRightChild();
             }
