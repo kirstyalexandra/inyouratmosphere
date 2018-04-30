@@ -2,7 +2,7 @@ package Lab13;
 
 import java.util.*;
 /**
- * @author YOUR NAME
+ * @author Kirsty Alexandra Nguegang
  * @version 4/24/2018
  */
 
@@ -18,15 +18,35 @@ public class WorkingWithHeaps
 
     public Node<Integer> mergeKSortedLists()
     {
-        Node<Integer> headOfMergedList = null;
-
-
         // TODO Project 4b
-        PriorityQueue<Node<Integer>> heap;
-
-
-
-
+        Node<Integer> headOfMergedList = null;
+        Node<Integer> element = null;
+        LinkedList<Node<Integer>> list = new LinkedList<>();
+        PriorityQueue<Node<Integer>> heap = new PriorityQueue<>(new Comparator<Node<Integer>>()
+        {
+            public int compare(Node<Integer> o1, Node<Integer> o2) { return o1.data - o2.data;}
+        });
+        for (Node<Integer> headOfEachList : this.lists)
+        {
+            if (headOfEachList != null)
+            {
+                heap.offer(headOfEachList);
+                element = headOfEachList;
+                while (element != null)
+                {
+                    heap.offer(element);
+                    element = element.next;
+                }
+            }
+        }
+        Node<Integer> current = heap.poll();
+        while (current != null && !heap.isEmpty())
+        {
+            list.add(current);
+            current.next = heap.poll();
+            current = current.next;
+        }
+        headOfMergedList = list.peek();
         return headOfMergedList;
     }
 
@@ -87,8 +107,24 @@ public class WorkingWithHeaps
     private void displayCreatedLists()
     {
         System.out.println("\nCreated lists:");
+        for (Node<Integer> eachList: this.lists)
+        {
+            Node<Integer> current = eachList;
+            if (current == null)
+            {
+                System.out.print("<empty>");
+            }
+            else
+            {
+                while (current != null)
+                {
+                    System.out.print(current.data + " ");
+                    current = current.next;
+                }
+            }
+            System.out.println();
+        }
         // TODO Project 4a
-
     }
 
     public static void main(String args[])

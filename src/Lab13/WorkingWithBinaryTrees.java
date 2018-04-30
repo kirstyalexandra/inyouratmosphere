@@ -18,6 +18,7 @@ public class WorkingWithBinaryTrees
         boolean isBinaryTree = true;
         Stack<BinaryNode<String>> nodeStack = new Stack<>();
         BinaryNode<String> currentNode = root;
+        System.out.println("Traversing the tree \"inOrder\" to check if it's BST: ");
 
         while ((!nodeStack.isEmpty() || currentNode != null) & isBinaryTree)
         {
@@ -31,10 +32,21 @@ public class WorkingWithBinaryTrees
             {
                 BinaryNode<String> nextNode = nodeStack.pop();
                 assert nextNode != null;
+                if (nextNode.getLeftChild() != null)
+                {
+                    if (nextNode.getLeftChild().getData().compareTo(nextNode.getData()) > 0)
+                        isBinaryTree = false;
+                }
+                else if (nextNode.getRightChild() != null)
+                {
+                    if (nextNode.getRightChild().getData().compareTo(nextNode.getData()) < 0)
+                        isBinaryTree = false;
+                }
                 System.out.print(nextNode.getData() + " ");
                 currentNode = nextNode.getRightChild();
             }
         }
+        System.out.println();
         return isBinaryTree;
         // TODO Project 3
         // implement iteratively
@@ -44,24 +56,52 @@ public class WorkingWithBinaryTrees
     {
         // TODO Project 3
         // implement recursively
-        if (root.getLeftChild() != null) // left child always contains smallest data in BST
-        {
-            getSmallest(root.getLeftChild());
-        }
-        return root.getData();
+        if (root.getLeftChild() == null)
+            return root.getData();
+        return getSmallest(root.getLeftChild());
     }
 
     public String getSecondLargest(BinaryNode<String> root)
     {
-
         // TODO Project 3
         // implement iteratively
+        BinaryNode<String> secondLargestNode = root;
+        BinaryNode<String> parentNode = root;
+        BinaryNode<String> largestNode = parentNode.getRightChild();
 
-
-        return null;
+        if (root.getLeftChild() == null && root.getRightChild() == null)
+        {
+            secondLargestNode.setData("null");
+        }
+        else
+        {
+            if (largestNode != null)
+            {
+                while (largestNode.getRightChild() != null)
+                {
+                    parentNode = largestNode;
+                    largestNode = largestNode.getRightChild();
+                }
+            } else
+            {
+                largestNode = root;
+            }
+            if (largestNode.getLeftChild() != null)
+            {
+                secondLargestNode = largestNode.getLeftChild();
+                while (secondLargestNode.getRightChild() != null)
+                {
+                    secondLargestNode = secondLargestNode.getRightChild();
+                }
+            } else
+            {
+                secondLargestNode = parentNode;
+            }
+        }
+        return secondLargestNode.getData();
     }
 
-    public BinaryNode<String> buildBSTfromSortedArray(String[] sortedArray, int left, int right)
+    public BinaryNode<String> buildBSTfromSortedArray(String[] sortedArray, int left, int right) // have to come back for you
     {
         int mid = left + (right - left) / 2;
         BinaryNode<String> root = new BinaryNode<>(sortedArray[mid]);
@@ -75,12 +115,41 @@ public class WorkingWithBinaryTrees
         // implement recursively
     }
 
-    public void printBSTinLevelOrder(BinaryNode<String> root)
+    public void printBSTinLevelOrder(BinaryNode<String> root) // have to come back for you
     {
-
+        Queue<BinaryNode<String>> queue = new LinkedList<>();
+        int level = 1;
+        if (root != null)
+        {
+            queue.offer(root);
+        }
+        BinaryNode<String> nextNode;
+        boolean done = false;
+        while (!done)
+        {
+            int size = queue.size();
+            if (size == 0)
+                done = true;
+            else
+            {
+                while (size > 0)
+                {
+                    nextNode = queue.poll();
+                    System.out.print(nextNode.getData() + " ");
+                    BinaryNode<String> leftChild = nextNode.getLeftChild();
+                    BinaryNode<String> rightChild = nextNode.getRightChild();
+                    if (leftChild != null)
+                        queue.offer(leftChild);
+                    if (rightChild != null)
+                        queue.offer(rightChild);
+                    size--;
+                }
+                System.out.println("<-- level " + (level++));
+            }
+        }
+        //}
         // TODO Project 3
         // implement iteratively
-
     }
 
     public BinaryNode<String> createTree1()
