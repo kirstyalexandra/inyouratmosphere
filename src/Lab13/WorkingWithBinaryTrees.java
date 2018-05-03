@@ -15,12 +15,12 @@ public class WorkingWithBinaryTrees
 {
     public boolean isBST(BinaryNode<String> root)
     {
-        boolean isBinaryTree = true;
+        boolean isBinarySearchTree = true;
         Stack<BinaryNode<String>> nodeStack = new Stack<>();
         BinaryNode<String> currentNode = root;
         System.out.println("Traversing the tree \"inOrder\" to check if it's BST: ");
 
-        while ((!nodeStack.isEmpty() || currentNode != null) & isBinaryTree)
+        while ((!nodeStack.isEmpty() || currentNode != null) & isBinarySearchTree)
         {
             while (currentNode != null)
             {
@@ -28,26 +28,26 @@ public class WorkingWithBinaryTrees
                 currentNode = currentNode.getLeftChild();
             }
 
-            if (!nodeStack.isEmpty() && isBinaryTree)
+            if (!nodeStack.isEmpty() && isBinarySearchTree)
             {
                 BinaryNode<String> nextNode = nodeStack.pop();
                 assert nextNode != null;
                 if (nextNode.getLeftChild() != null)
                 {
                     if (nextNode.getLeftChild().getData().compareTo(nextNode.getData()) > 0)
-                        isBinaryTree = false;
+                        isBinarySearchTree = false;
                 }
                 else if (nextNode.getRightChild() != null)
                 {
                     if (nextNode.getRightChild().getData().compareTo(nextNode.getData()) < 0)
-                        isBinaryTree = false;
+                        isBinarySearchTree = false;
                 }
                 System.out.print(nextNode.getData() + " ");
                 currentNode = nextNode.getRightChild();
             }
         }
         System.out.println();
-        return isBinaryTree;
+        return isBinarySearchTree;
         // TODO Project 3
         // implement iteratively
     }
@@ -105,14 +105,19 @@ public class WorkingWithBinaryTrees
     {
         int mid = left + (right - left) / 2;
         BinaryNode<String> root = new BinaryNode<>(sortedArray[mid]);
-        if (left < right)
+
+        if (left > right)
+            return null;
+
+        else if (left < right)
         {
             root.setLeftChild(buildBSTfromSortedArray(sortedArray, left, mid - 1));
-            root.setRightChild(buildBSTfromSortedArray(sortedArray, mid + 1, sortedArray.length - 1));
+            root.setRightChild(buildBSTfromSortedArray(sortedArray, mid + 1, right));
         }
-        return root;
         // TODO Project 3
+        return root;
         // implement recursively
+
     }
 
     public void printBSTinLevelOrder(BinaryNode<String> root) // have to come back for you

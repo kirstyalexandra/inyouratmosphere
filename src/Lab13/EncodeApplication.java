@@ -3,7 +3,6 @@ package Lab13;
 import java.io.File;
 import java.util.*;
 
-
 /**
  * A class that implements text encoding using Huffman compression algorithm
  *
@@ -43,8 +42,11 @@ public class EncodeApplication
     public int[] getCounts()
     {
         // TODO Project 5
-        String [] string = this.myMessage.toString().split("\n"); // splitting string to retrieve text
-        String message = string[1];
+        StringBuilder message = new StringBuilder();
+        while (this.myMessage.hasNext())
+        {
+            message.append(this.myMessage.next());
+        }
         int[] result = new int[MAX_NUMBER_OF_CHARS + 1];
         for (int i = 0; i < message.length(); i++)
         {
@@ -52,9 +54,10 @@ public class EncodeApplication
         }
         for (int i = 0; i < result.length; i++)
         {
-            if (result[i] != 0)
+            if (result[i] > 0)
             {
                 System.out.println("---> Count of character " + (char)i + " is " + result[i]);
+                this.numberOfTrees++;
             }
         }
         //System.out.println("getCounts - IMPLEMENT ME");
@@ -71,18 +74,8 @@ public class EncodeApplication
     public HuffmanTree[] createInitialTrees(int[] count)
     {
         // TODO Project 5
-        Queue<Integer> queue = new LinkedList<>();
-        for (int index = 0; index < count.length; index++)
-        {
-            if (count[index] != 0)
-                queue.offer(count[index]);
-        }
-        this.numberOfTrees = queue.size();
         System.out.println("Creating " + this.numberOfTrees + " initial trees");
         HuffmanTree[] result = new HuffmanTree[this.numberOfTrees];
-        String[] string = this.myMessage.toString().split("\n");
-        String message = string[1];
-
         for (int i = 0, j = 0; i < count.length && j < result.length; i++)
         {
             if (count[i] != 0)
@@ -120,61 +113,40 @@ public class EncodeApplication
             // swap second smallest to the end
 
             System.out.println("--->Second smallest tree moved to the position " + (this.numberOfTrees - 2));
+            secondSmallestIndex = findSmallest(this.numberOfTrees - 1);
+            swap(secondSmallestIndex, numberOfTrees - 2);
             secondSmallestIndex = smallestIndex - 1;
-            int indexToSwapWith = 0;
-            boolean found = false;
-            for (int i = 0; i < secondSmallestIndex && !found; i++)
-            {
-                HuffmanTree secSmallest = this.myTrees[secondSmallestIndex];
-                if (this.myTrees[i].getRootData().compareTo(secSmallest.getRootData()) <= 0)
-                {
-                    indexToSwapWith = i;
-                    found = true;
-                }
-            }
-            if (!found)
-                indexToSwapWith = smallestIndex;
-            swap(indexToSwapWith, secondSmallestIndex);
-            secondSmallestIndex = smallestIndex - 1;
-
             // Construct a new combined tree and put in place of the second last tree
+
+            HuffmanTree leftChild = null;
+            HuffmanTree rightChild = null;
             List<Character> combinedCharList = new ArrayList<>();
-            HuffmanCode combined;
-            HuffmanCode data1 = this.myTrees[smallestIndex].getRootData();
-            HuffmanCode data2 = this.myTrees[secondSmallestIndex].getRootData();
-            int combinedFrequency = data1.getFrequency() + data2.getFrequency();
-            List<Character> data1Symbols = data1.getSymbols();
-            List<Character> data2Symbols = data2.getSymbols();
-            Iterator<Character> itr1 = data1Symbols.iterator();
-            Iterator<Character> itr2 = data2Symbols.iterator();
-            if (data1.getFrequency() > data2.getFrequency() || data1.getFrequency() == data2.getFrequency())
+            HuffmanCode smallest = this.myTrees[smallestIndex].getRootData();
+            HuffmanCode secondSmallest = this.myTrees[secondSmallestIndex].getRootData();
+            int combinedFrequency = smallest.getFrequency() + secondSmallest.getFrequency();
+            List<Character> smallestSymbols = smallest.getSymbols();
+            List<Character> secondSmallestSymbols = secondSmallest.getSymbols();
+
+            if (smallest.getFrequency() < secondSmallest.getFrequency() || smallest.getFrequency() == secondSmallest.getFrequency())
             {
-                while (itr2.hasNext())
-                {
-                    combinedCharList.add(itr2.next());
-                }
-                while (itr1.hasNext())
-                {
-                    combinedCharList.add(itr1.next());
-                }
+                leftChild = this.myTrees[smallestIndex];
+                rightChild = this.myTrees[secondSmallestIndex];
+                combinedCharList.addAll(smallestSymbols);
+                combinedCharList.addAll(secondSmallestSymbols);
             }
-            else if (data1.getFrequency() < data2.getFrequency())
+            else
             {
-                while (itr1.hasNext())
-                {
-                    combinedCharList.add(itr1.next());
-                }
-                while (itr2.hasNext())
-                {
-                    combinedCharList.add(itr2.next());
-                }
+                leftChild = this.myTrees[secondSmallestIndex];
+                rightChild = this.myTrees[smallestIndex];
+                combinedCharList.addAll(secondSmallestSymbols);
+                combinedCharList.addAll(smallestSymbols);
             }
-            combined = new HuffmanCode(combinedCharList, combinedFrequency);
-            this.myTrees[secondSmallestIndex] = new HuffmanTree(combined, this.myTrees[secondSmallestIndex], this.myTrees[smallestIndex]);
+
+            HuffmanCode combined = new HuffmanCode(combinedCharList, combinedFrequency);
+            this.myTrees[secondSmallestIndex] = new HuffmanTree(combined, leftChild, rightChild);
             System.out.println("--->Combined tree created: " + combined.toString());
             System.out.println("--->Combined tree added at position " + (this.numberOfTrees - 2));
             this.numberOfTrees--;
-            //secondSmallestIndex--;
         }
     }
 
@@ -219,15 +191,23 @@ public class EncodeApplication
     public void encodeCharacter(Character c)
     {
         // TODO Project 5
-        System.out.println("encodeCharacter - IMPLEMENT ME");
         // make sure that we point to the root
         // at this point we only have one tree
         this.myTrees[0].reset();
+        HuffmanTree root = this.myTrees[0];
         while(!this.myTrees[0].isSingleSymbol())//<-- only look at the trees where the symbol list contains one element
         {
-
+            if (root.checkLeft(c))
+            {
+                root.advanceLeft();
+                myCode.addCharacter('0');
+            }
+            else if (root.checkRight(c))
+            {
+                root.advanceRight();
+                myCode.addCharacter('1');
+            }
         }
-
     }
 
     /**
@@ -273,7 +253,7 @@ public class EncodeApplication
 
     public void run()
     {
-        if (loadMessage("C:\\Users\\Bertrand\\inyouratmosphere\\src\\Lab13\\message4.txt"))
+        if (loadMessage("message1.txt"))
         {
             this.myTrees = createInitialTrees(getCounts());
             this.numberOfTrees = this.myTrees.length;

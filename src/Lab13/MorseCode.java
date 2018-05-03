@@ -28,7 +28,7 @@ public class MorseCode
         String code = null;
         try
         {
-            Scanner file = new Scanner(new File("C:\\Users\\Bertrand\\inyouratmosphere\\src\\Lab13\\MorseCode.txt")); // remember to put back "MorseCode.txt"
+            Scanner file = new Scanner(new File("MorseCode.txt")); // remember to put back "MorseCode.txt"
             System.out.println("The Morse Code:");
             System.out.println("===============");
 
@@ -87,11 +87,12 @@ public class MorseCode
                 String element = lineScan.next();
                 for (int i = 0; i < element.length(); i++)
                 {
-                    char cElement = element.charAt(i);
-                    if (cElement == '.') // branch left for dot
+                    char letter = element.charAt(i);
+                    if (letter == '.') // branch left for dot
                     {
                         current = current.getLeftChild();
-                    } else if (cElement == '_') // branch right for underscore
+                    }
+                    else if (letter == '_') // branch right for underscore
                     {
                         current = current.getRightChild();
                     }

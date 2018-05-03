@@ -20,8 +20,6 @@ public class WorkingWithHeaps
     {
         // TODO Project 4b
         Node<Integer> headOfMergedList = null;
-        Node<Integer> element = null;
-        LinkedList<Node<Integer>> list = new LinkedList<>();
         PriorityQueue<Node<Integer>> heap = new PriorityQueue<>(new Comparator<Node<Integer>>()
         {
             public int compare(Node<Integer> o1, Node<Integer> o2) { return o1.data - o2.data;}
@@ -31,7 +29,7 @@ public class WorkingWithHeaps
             if (headOfEachList != null)
             {
                 heap.offer(headOfEachList);
-                element = headOfEachList;
+                Node<Integer> element = headOfEachList.next;
                 while (element != null)
                 {
                     heap.offer(element);
@@ -39,14 +37,16 @@ public class WorkingWithHeaps
                 }
             }
         }
-        Node<Integer> current = heap.poll();
+
+        if (!heap.isEmpty())
+            headOfMergedList = heap.poll();
+
+        Node<Integer> current = headOfMergedList;
         while (current != null && !heap.isEmpty())
         {
-            list.add(current);
             current.next = heap.poll();
             current = current.next;
         }
-        headOfMergedList = list.peek();
         return headOfMergedList;
     }
 
