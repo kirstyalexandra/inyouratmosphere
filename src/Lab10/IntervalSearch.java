@@ -54,13 +54,24 @@ public class IntervalSearch
 			// STEP 2 - get the smallest and the largest targets
 			T smallestTarget = targetValues.pollFirst();
 			T largestTarget = targetValues.pollLast();
-			System.out.println("Smallest target is " + smallestTarget + "; largest target is " + largestTarget);
-
-			// STEP 3 - utilizing the binary search algorithm search for the smallest target
+			if (largestTarget == null)
+			{
+				System.out.println("Target list is ["+ smallestTarget +"]");
+				largestTarget = smallestTarget;
+			}
+			else
+			{
+				System.out.println("Target list is [" + smallestTarget + ", " + largestTarget + "]");
+			}
+				// STEP 3 - utilizing the binary search algorithm search for the smallest target
 			//          DO NOT USE RECURSION
 			if ((smallestTarget.compareTo(sortedData[0]) < 0))
 			{
 				leftBoundary = -1;
+			}
+			else if (smallestTarget.compareTo(sortedData[sortedData.length - 1]) > 0)
+			{
+				leftBoundary = sortedData.length;
 			}
 			else
 			{
@@ -73,7 +84,6 @@ public class IntervalSearch
 				{
 					mid = left + (right - left) / 2;
 					int comparison = smallestTarget.compareTo(sortedData[mid]);
-
 					if (comparison > 0)
 					{
 						left = mid + 1;
@@ -86,22 +96,31 @@ public class IntervalSearch
 					{
 						found = true;
 						leftBoundary = mid;
+						int i = mid;
+						while (sortedData[i - 1].compareTo(smallestTarget) == 0)
+						{
+							i--;
+							leftBoundary = i;
+						}
+
 					}
 				}
 				if (!found)
-				{
-					mid--;
-				}
+					leftBoundary = right;
 			}
-			//System.out.println("\tLeft: " + left + " Middle: " + mid + " Right: " + right);
+
 			// STEP 4 - set the left boundary to the appropriate index
-			System.out.println("\tLeft Boundary set to " + leftBoundary);
+
 
 			// STEP 5 - utilizing the binary search algorithm search for the largest target
 			//          DO NOT USE RECURSION
 			//          NOTE that you can reduce the searches by setting the left index
 			//               to the leftBoundary that you calculated in step 4
-			if (largestTarget.compareTo(sortedData[sortedData.length - 1]) > 0)
+			if (largestTarget.compareTo(sortedData[1]) < 0)
+			{
+				rightBoundary = -1;
+			}
+			else if (largestTarget.compareTo(sortedData[sortedData.length - 1]) > 0)
 			{
 				rightBoundary = sortedData.length;
 			}
@@ -116,7 +135,6 @@ public class IntervalSearch
 				{
 					mid = left + (right - left) / 2;
 					int comparison = largestTarget.compareTo(sortedData[mid]);
-
 					if (comparison > 0)
 					{
 						left = mid + 1;
@@ -129,17 +147,19 @@ public class IntervalSearch
 					{
 						found = true;
 						rightBoundary = mid;
+						int i = mid;
+						while (sortedData[i + 1].compareTo(largestTarget) == 0) // checking for duplicates
+						{
+							i++;
+							rightBoundary = i;
+						}
+
 					}
 				}
 				if (!found)
-				{
-					mid++;
-				}
+					rightBoundary = left;
 			}
-
-			//System.out.println("\tLeft: " + left + " Middle: " + mid + " Right: " + right);
 			// STEP 6 - set the right boundary to the appropriate index
-			System.out.println("\tRight Boundary set to " + rightBoundary);
 		}
 
 		return new Interval(leftBoundary, rightBoundary);
